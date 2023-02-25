@@ -6,10 +6,11 @@ package net.mcthunder.VillagesArise;
 
 //Add Mod Related Importes
 import com.mojang.logging.LogUtils;
+import net.mcthunder.VillagesArise.blocks.TownHallBlock;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -40,9 +41,9 @@ public class VillagesArise {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 
     // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
-    //public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of(Material.STONE)));
+    public static final RegistryObject<Block> TOWN_HALL_BLOCK = BLOCKS.register("town_hall_block", () -> new TownHallBlock(BlockBehaviour.Properties.of(Material.DIRT)));
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
-    //public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> TOWN_HALL_BLOCK_ITEM = ITEMS.register("town_hall_block", () -> new BlockItem(TOWN_HALL_BLOCK.get(), new Item.Properties()));
 
     public VillagesArise()
     {
@@ -67,13 +68,23 @@ public class VillagesArise {
     {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
+        LOGGER.info("Town Hall Block >> {}", TOWN_HALL_BLOCK);
     }
+    //Create Creative Tab
 
-    private void addCreative(CreativeModeTabEvent.BuildContents event)
-    {
-        //if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS)
-           // event.accept(EXAMPLE_BLOCK_ITEM);
+    private void addCreative(CreativeModeTabEvent.Register event){
+        //LOGGER.debug("LUKA");
+        event.registerCreativeModeTab(new ResourceLocation(MODID, "villagesarise"), builder ->
+                // Set name of tab to display
+                builder.title(Component.translatable("item_group." + MODID + ".Villages"))
+                        // Set icon of creative tab
+                        .icon(() -> new ItemStack(Items.EMERALD))
+                        // Add default items to tab
+                        .displayItems((enabledFlags, populator, hasPermissions) -> {
+                            populator.accept(new ItemStack(TOWN_HALL_BLOCK_ITEM.get()));
+                            // populator.accept(TOWN_HALL_BLOCK.get());
+                        })
+        );
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -85,6 +96,25 @@ public class VillagesArise {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
+
+    /**@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static final class ModEvents{
+        @SubscribeEvent
+        public void onCreativeTabRegistry(CreativeModeTabEvent.Register event) {
+            LOGGER.debug("LUKA");
+            event.registerCreativeModeTab(new ResourceLocation(MODID, "VillagesArise"), builder ->
+                    // Set name of tab to display
+                    builder.title(Component.translatable("item_group." + MODID + ".Villages"))
+                            // Set icon of creative tab
+                            .icon(() -> new ItemStack(Items.EMERALD))
+                            // Add default items to tab
+                            .displayItems((enabledFlags, populator, hasPermissions) -> {
+                                populator.accept(new ItemStack(TOWN_HALL_BLOCK_ITEM.get()));
+                                // populator.accept(TOWN_HALL_BLOCK.get());
+                            })
+            );
+        }
+    }*/
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
