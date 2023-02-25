@@ -12,7 +12,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,16 +33,8 @@ public class VillagesArise {
 
     public static final String MODID = "villagesarise";
     // Directly reference a slf4j logger
+    public static final VillageRegister REGISTRY = new VillageRegister();
     private static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-
-    // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
-    public static final RegistryObject<Block> TOWN_HALL_BLOCK = BLOCKS.register("town_hall_block", () -> new TownHallBlock(BlockBehaviour.Properties.of(Material.DIRT)));
-    // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
-    public static final RegistryObject<Item> TOWN_HALL_BLOCK_ITEM = ITEMS.register("town_hall_block", () -> new BlockItem(TOWN_HALL_BLOCK.get(), new Item.Properties()));
 
     public VillagesArise()
     {
@@ -51,11 +42,7 @@ public class VillagesArise {
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-
-        // Register the Deferred Register to the mod event bus so blocks get registered
-        BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
-        ITEMS.register(modEventBus);
+        REGISTRY.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -68,7 +55,7 @@ public class VillagesArise {
     {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("Town Hall Block >> {}", TOWN_HALL_BLOCK);
+        LOGGER.info("Town Hall Block >> {}", VillageRegister.TOWN_HALL_BLOCK);
     }
     //Create Creative Tab
 
@@ -81,8 +68,8 @@ public class VillagesArise {
                         .icon(() -> new ItemStack(Items.EMERALD))
                         // Add default items to tab
                         .displayItems((enabledFlags, populator, hasPermissions) -> {
-                            populator.accept(new ItemStack(TOWN_HALL_BLOCK_ITEM.get()));
-                            // populator.accept(TOWN_HALL_BLOCK.get());
+                            populator.accept(new ItemStack(VillageRegister.TOWN_HALL_BLOCK_ITEM.get()));
+                            populator.accept(new ItemStack(VillageRegister.EMERALD_COIN_ITEM.get()));
                         })
         );
     }
@@ -96,25 +83,6 @@ public class VillagesArise {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-
-    /**@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static final class ModEvents{
-        @SubscribeEvent
-        public void onCreativeTabRegistry(CreativeModeTabEvent.Register event) {
-            LOGGER.debug("LUKA");
-            event.registerCreativeModeTab(new ResourceLocation(MODID, "VillagesArise"), builder ->
-                    // Set name of tab to display
-                    builder.title(Component.translatable("item_group." + MODID + ".Villages"))
-                            // Set icon of creative tab
-                            .icon(() -> new ItemStack(Items.EMERALD))
-                            // Add default items to tab
-                            .displayItems((enabledFlags, populator, hasPermissions) -> {
-                                populator.accept(new ItemStack(TOWN_HALL_BLOCK_ITEM.get()));
-                                // populator.accept(TOWN_HALL_BLOCK.get());
-                            })
-            );
-        }
-    }*/
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
