@@ -35,7 +35,7 @@ public class VillageRegister {
             .register("town_hall_block", () -> new TownHallBlock(BlockBehaviour.Properties.of(Material.DIRT)));
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
     public static final RegistryObject<Item> TOWN_HALL_BLOCK_ITEM = ITEMS
-            .register("town_hall_block", () -> new BlockItem(TOWN_HALL_BLOCK.get(), new Item.Properties()));
+            .register("town_hall_block_item", () -> new BlockItem(TOWN_HALL_BLOCK.get(), new Item.Properties()));
     public static final RegistryObject<Item> EMERALD_COIN_ITEM = ITEMS
             .register("emerald_coin", () -> new Item(new Item.Properties()));
     /** TEMPLATE FOR ITEMS
