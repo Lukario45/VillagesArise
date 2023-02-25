@@ -1,12 +1,20 @@
 package net.mcthunder.VillagesArise;
 
 import net.mcthunder.VillagesArise.blocks.TownHallBlock;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -38,10 +46,31 @@ public class VillageRegister {
 
     }
     public void register(IEventBus eventBus){
+
+
+        // Register the commonSetup method for modloading
+        //modEventBus.addListener(this::commonSetup);
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(eventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(eventBus);
+        MinecraftForge.EVENT_BUS.register(this);
+        eventBus.addListener(this::registerCreative);
 
+    }
+
+    private  void registerCreative(CreativeModeTabEvent.Register event){
+        //LOGGER.debug("LUKA");
+        event.registerCreativeModeTab(new ResourceLocation(VillagesArise.MODID, "villagesarise"), builder ->
+                // Set name of tab to display
+                builder.title(Component.translatable("item_group." + VillagesArise.MODID + ".Villages"))
+                        // Set icon of creative tab
+                        .icon(() -> new ItemStack(Items.EMERALD))
+                        // Add default items to tab
+                        .displayItems((enabledFlags, populator, hasPermissions) -> {
+                            populator.accept(new ItemStack(VillageRegister.TOWN_HALL_BLOCK_ITEM.get()));
+                            populator.accept(new ItemStack(VillageRegister.EMERALD_COIN_ITEM.get()));
+                        })
+        );
     }
 }

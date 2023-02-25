@@ -38,43 +38,10 @@ public class VillagesArise {
 
     public VillagesArise()
     {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
-        REGISTRY.register(modEventBus);
-
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
-
-        // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
+        REGISTRY.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("Town Hall Block >> {}", VillageRegister.TOWN_HALL_BLOCK);
-    }
-    //Create Creative Tab
-
-    private void addCreative(CreativeModeTabEvent.Register event){
-        //LOGGER.debug("LUKA");
-        event.registerCreativeModeTab(new ResourceLocation(MODID, "villagesarise"), builder ->
-                // Set name of tab to display
-                builder.title(Component.translatable("item_group." + MODID + ".Villages"))
-                        // Set icon of creative tab
-                        .icon(() -> new ItemStack(Items.EMERALD))
-                        // Add default items to tab
-                        .displayItems((enabledFlags, populator, hasPermissions) -> {
-                            populator.accept(new ItemStack(VillageRegister.TOWN_HALL_BLOCK_ITEM.get()));
-                            populator.accept(new ItemStack(VillageRegister.EMERALD_COIN_ITEM.get()));
-                        })
-        );
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
+    //TODO: Verify that code below is still relevant with register switched
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
