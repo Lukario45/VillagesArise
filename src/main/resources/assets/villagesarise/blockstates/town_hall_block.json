@@ -1,0 +1,7 @@
+{
+  "variants" : {
+    "": {
+      "model" : "villagesarise:block/town_hall_block"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "parent" : "item/generated",
   "textures" : {
-    "layer0": "villagesarise:items/emerald_coin"
+    "layer0": "villagesarise:block/generic_todo"
   }
 }

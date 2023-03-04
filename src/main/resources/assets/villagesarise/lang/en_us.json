@@ -1,7 +1,7 @@
 {
   "itemgroup.villagesarise" : "Village Arise Items",
   "item.villagesarise.town_hall_block_item" : "Town Hall Block",
-  "item.villagesarise.town_hall_block" : "Town Hall Block",
+  "block.villagesarise.town_hall_block" : "Town Hall Block",
   "item.villagesarise.emerald_coin" : "Emerald Coin",
   "item_group.villagesarise.Villages" : "Villages"
 }

@@ -32,7 +32,7 @@ public class VillageRegister {
             .create(ForgeRegistries.ITEMS, VillagesArise.MODID);
     // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
     public static final RegistryObject<Block> TOWN_HALL_BLOCK = BLOCKS
-            .register("town_hall_block", () -> new TownHallBlock(BlockBehaviour.Properties.of(Material.DIRT)));
+            .register("town_hall_block.json", () -> new TownHallBlock(BlockBehaviour.Properties.of(Material.DIRT)));
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
     public static final RegistryObject<Item> TOWN_HALL_BLOCK_ITEM = ITEMS
             .register("town_hall_block_item", () -> new BlockItem(TOWN_HALL_BLOCK.get(), new Item.Properties()));
