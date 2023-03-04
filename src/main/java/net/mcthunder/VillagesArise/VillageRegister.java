@@ -1,6 +1,7 @@
 package net.mcthunder.VillagesArise;
 
 import net.mcthunder.VillagesArise.blocks.TownHallBlock;
+import net.mcthunder.VillagesArise.gui.TownHallGUI;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -53,6 +55,9 @@ public class VillageRegister {
     /**
      * Menu Registry Objects
      */
+    public static final RegistryObject<MenuType<TownHallGUI>> TOWN_HALL_GUI = MENU_TYPES
+            .register("town_hall_gui", () ->
+                IForgeMenuType.create(TownHallGUI::new));
     public VillageRegister(){
 
     }
