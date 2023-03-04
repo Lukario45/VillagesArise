@@ -3,6 +3,7 @@ package net.mcthunder.VillagesArise;
 import net.mcthunder.VillagesArise.blocks.TownHallBlock;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,16 +25,23 @@ import net.minecraftforge.registries.RegistryObject;
  * Class to handle all registrations within this MOD
  */
 public class VillageRegister {
-    // Deferred Register for BLOCKS
+    /**
+     * Deferred Registers
+     */
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister
             .create(ForgeRegistries.BLOCKS, VillagesArise.MODID);
-    // Deferred Register for ITEMS
     public static final DeferredRegister<Item> ITEMS = DeferredRegister
             .create(ForgeRegistries.ITEMS, VillagesArise.MODID);
-    // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
+    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister
+            .create(ForgeRegistries.MENU_TYPES, VillagesArise.MODID);
+    /**
+     * Block Registry Objects
+     */
     public static final RegistryObject<Block> TOWN_HALL_BLOCK = BLOCKS
             .register("town_hall_block.json", () -> new TownHallBlock(BlockBehaviour.Properties.of(Material.DIRT)));
-    // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
+    /**
+     * Item Registry Objects
+     */
     public static final RegistryObject<Item> TOWN_HALL_BLOCK_ITEM = ITEMS
             .register("town_hall_block_item", () -> new BlockItem(TOWN_HALL_BLOCK.get(), new Item.Properties()));
     public static final RegistryObject<Item> EMERALD_COIN_ITEM = ITEMS
@@ -42,6 +50,9 @@ public class VillageRegister {
      public static final RegistryObject<Item>  = ITEMS
             .register(" ", () -> new Item(new Item.Properties()));
         END **/
+    /**
+     * Menu Registry Objects
+     */
     public VillageRegister(){
 
     }
